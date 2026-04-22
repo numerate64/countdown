@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Countdown — Admin</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="page-admin">
+
+  <div class="admin-wrapper">
+    <h1 class="admin-heading">⚙ Configure Countdown</h1>
+
+    <form class="admin-form" id="adminForm" novalidate>
+
+      <div class="form-group">
+        <label for="eventName">Event Name / Description</label>
+        <input
+          type="text"
+          id="eventName"
+          name="eventName"
+          placeholder="e.g. Product Launch"
+          maxlength="80"
+          required
+        />
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="targetDate">Target Date</label>
+          <input
+            type="date"
+            id="targetDate"
+            name="targetDate"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="targetTime">Target Time</label>
+          <input
+            type="time"
+            id="targetTime"
+            name="targetTime"
+            required
+          />
+        </div>
+      </div>
+
+      <button type="submit" class="btn-save">Save Configuration</button>
+    </form>
+
+    <div class="confirmation" id="confirmation">
+      <span class="confirmation-icon">✅</span>
+      <p>Configuration saved successfully!</p>
+      <a href="index.html" class="btn-view">View Countdown →</a>
+    </div>
+
+    <a class="back-link" href="index.html">← Back to Countdown</a>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
