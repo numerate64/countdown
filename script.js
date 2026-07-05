@@ -2,12 +2,17 @@ const STORAGE_KEYS = {
   name: "countdown.event.name",
   description: "countdown.event.description",
   date: "countdown.event.date",
-  time: "countdown.event.time"
+  time: "countdown.event.time",
+  theme: "countdown.theme"
 };
 
 const DEFAULT_NAME = "Coming Soon";
 const DEFAULT_DESCRIPTION = "The next milestone is on the clock.";
 const DEFAULT_TIME = "18:00";
+const THEMES = {
+  light: "light",
+  dark: "dark"
+};
 
 function formatDatePart(value) {
   return String(value).padStart(2, "0");
@@ -81,6 +86,52 @@ function showElement(element, shouldShow) {
   }
 
   element.classList.toggle("is-hidden", !shouldShow);
+}
+
+function getPreferredTheme() {
+  const storedTheme = localStorage.getItem(STORAGE_KEYS.theme);
+
+  if (storedTheme === THEMES.light || storedTheme === THEMES.dark) {
+    return storedTheme;
+  }
+
+  return window.matchMedia("(prefers-color-scheme: light)").matches ? THEMES.light : THEMES.dark;
+}
+
+function applyTheme(theme) {
+  const nextTheme = theme === THEMES.light ? THEMES.light : THEMES.dark;
+  const toggle = document.getElementById("themeToggle");
+  const toggleText = document.getElementById("themeToggleText");
+  const isLight = nextTheme === THEMES.light;
+
+  document.documentElement.dataset.theme = nextTheme;
+
+  if (toggle) {
+    toggle.setAttribute("aria-pressed", String(isLight));
+    toggle.setAttribute("aria-label", isLight ? "Switch to dark mode" : "Switch to light mode");
+  }
+
+  if (toggleText) {
+    toggleText.textContent = isLight ? "Dark" : "Light";
+  }
+}
+
+function initThemeToggle() {
+  const toggle = document.getElementById("themeToggle");
+
+  applyTheme(getPreferredTheme());
+
+  if (!toggle) {
+    return;
+  }
+
+  toggle.addEventListener("click", () => {
+    const currentTheme = document.documentElement.dataset.theme === THEMES.light ? THEMES.light : THEMES.dark;
+    const nextTheme = currentTheme === THEMES.light ? THEMES.dark : THEMES.light;
+
+    localStorage.setItem(STORAGE_KEYS.theme, nextTheme);
+    applyTheme(nextTheme);
+  });
 }
 
 function initCountdownPage() {
@@ -198,6 +249,8 @@ function initAdminPage() {
     field.addEventListener("change", hideMessage);
   });
 }
+
+initThemeToggle();
 
 if (document.body.classList.contains("page-countdown")) {
   initCountdownPage();

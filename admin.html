@@ -8,10 +8,26 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <script>
+    (function () {
+      try {
+        var storedTheme = localStorage.getItem("countdown.theme");
+        var prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
+        document.documentElement.dataset.theme = storedTheme || (prefersLight ? "light" : "dark");
+      } catch (error) {
+        document.documentElement.dataset.theme = "dark";
+      }
+    }());
+  </script>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body class="page page-admin">
   <div class="page-shell">
+    <button class="theme-toggle" type="button" id="themeToggle" aria-label="Switch color theme" aria-pressed="false">
+      <span class="theme-toggle__icon" aria-hidden="true"></span>
+      <span class="theme-toggle__text" id="themeToggleText">Light</span>
+    </button>
+
     <main class="hero-card admin-card">
       <p class="eyebrow">Configuration</p>
       <h1 class="panel-title">Countdown Control Panel</h1>
